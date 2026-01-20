@@ -26,8 +26,11 @@ if ENV["COVERAGE"]
     add_group "Lib", "lib"
     
     # Configure formatters
-    if xml_formatter_available
-      # Use both HTML (for local viewing) and XML (for Codacy)
+    if ENV["CI"] && xml_formatter_available
+      # In CI, use only XML formatter for Codacy (more reliable)
+      formatter SimpleCov::Formatter::CoberturaFormatter
+    elsif xml_formatter_available
+      # Locally, use both HTML and XML
       formatter SimpleCov::Formatter::MultiFormatter.new([
         SimpleCov::Formatter::HTMLFormatter,
         SimpleCov::Formatter::CoberturaFormatter
@@ -195,4 +198,24 @@ ActiveRecord::FixtureSet.create_fixtures(fixture_path, [ :accounts, :active_stor
 # Make fixtures available to test classes
 class ActiveSupport::TestCase
   include FixtureHelper
+end
+
+# Ensure XML coverage is generated in CI
+if ENV["COVERAGE"] && ENV["CI"]
+  begin
+    require "simplecov-cobertura"
+    
+    # Add at_exit hook to ensure XML is generated even if formatter didn't run
+    at_exit do
+      if defined?(SimpleCov) && SimpleCov.running
+        result = SimpleCov.result
+        if result && !result.files.empty?
+          formatter = SimpleCov::Formatter::CoberturaFormatter.new
+          formatter.format(result)
+        end
+      end
+    end
+  rescue LoadError
+    # simplecov-cobertura not available
+  end
 end
