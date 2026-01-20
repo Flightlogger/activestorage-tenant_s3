@@ -69,7 +69,7 @@ ActiveRecord::Schema.define do
     t.datetime :created_at, null: false
     t.bigint :tenant_id
     t.string :tenant_type
-    t.index [:key], unique: true
+    t.index [ :key ], unique: true
   end
 
   create_table :active_storage_attachments, force: true do |t|
@@ -80,8 +80,8 @@ ActiveRecord::Schema.define do
     t.datetime :created_at, null: false
     t.bigint :tenant_id
     t.string :tenant_type
-    t.index [:blob_id], name: "index_active_storage_attachments_on_blob_id"
-    t.index [:record_type, :record_id, :name, :blob_id], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index [ :blob_id ], name: "index_active_storage_attachments_on_blob_id"
+    t.index [ :record_type, :record_id, :name, :blob_id ], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table :active_storage_variant_records, force: true do |t|
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define do
     t.string :variation_digest, null: false
     t.bigint :tenant_id
     t.string :tenant_type
-    t.index [:blob_id, :variation_digest], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index [ :blob_id, :variation_digest ], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 end
 
@@ -150,7 +150,7 @@ end
 
 # Load fixtures manually
 fixture_path = File.expand_path("fixtures", __dir__)
-ActiveRecord::FixtureSet.create_fixtures(fixture_path, [:accounts, :active_storage_blobs, :active_storage_attachments])
+ActiveRecord::FixtureSet.create_fixtures(fixture_path, [ :accounts, :active_storage_blobs, :active_storage_attachments ])
 
 # Make fixtures available to test classes
 class ActiveSupport::TestCase

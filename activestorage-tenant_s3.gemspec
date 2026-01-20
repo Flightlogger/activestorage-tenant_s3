@@ -5,8 +5,8 @@ require_relative "lib/activestorage/tenant_s3/version"
 Gem::Specification.new do |spec|
   spec.name = "activestorage-tenant_s3"
   spec.version = ActiveStorage::TenantS3::VERSION
-  spec.authors = ["FlightLogger"]
-  spec.email = ["dev@flightlogger.net"]
+  spec.authors = [ "FlightLogger" ]
+  spec.email = [ "dev@flightlogger.net" ]
 
   spec.summary = "Multi-tenant support for ActiveStorage with automatic tenant scoping and tenant-aware S3 storage paths"
   spec.description = <<~DESC
@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   end
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = [ "lib" ]
 
   # Dependencies
   spec.add_dependency "rails", ">= 7.0"

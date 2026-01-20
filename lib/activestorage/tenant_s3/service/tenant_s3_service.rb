@@ -105,7 +105,7 @@ module ActiveStorage
 
         def build_s3_path(key, tenant_info, record_type, use_fallback: false)
           if tenant_info&.dig(:type).present? && tenant_info&.dig(:id).present?
-            path_parts = [tenant_info[:type], tenant_info[:id].to_s]
+            path_parts = [ tenant_info[:type], tenant_info[:id].to_s ]
 
             # Add sanitized record type if available, otherwise use "ActiveStorage" as fallback
             # If use_fallback is true, always use "ActiveStorage" (for backward compatibility)

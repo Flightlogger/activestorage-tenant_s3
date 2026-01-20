@@ -1,0 +1,11 @@
+# RuboCop configuration using Rails Omakase
+# This provides sensible defaults for Rails projects
+
+inherit_gem:
+  rubocop-rails-omakase:
+    - rubocop.yml
+
+# You can add project-specific overrides here if needed
+# For example, to enable additional cops or adjust settings:
+# AllCops:
+#   TargetRubyVersion: 3.0
