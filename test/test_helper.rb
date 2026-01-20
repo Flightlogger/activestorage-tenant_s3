@@ -2,6 +2,46 @@
 
 ENV["RAILS_ENV"] ||= "test"
 
+# Start SimpleCov before requiring any application code
+if ENV["COVERAGE"]
+  require "simplecov"
+  
+  # Always try to include XML formatter for Codacy
+  begin
+    require "simplecov-cobertura"
+    xml_formatter_available = true
+  rescue LoadError
+    xml_formatter_available = false
+  end
+  
+  SimpleCov.start do
+    # Set command name for SimpleCov
+    command_name "Unit Tests"
+    
+    add_filter "/test/"
+    add_filter "/config/"
+    add_filter "/vendor/"
+    
+    # Track coverage for lib directory
+    add_group "Lib", "lib"
+    
+    # Configure formatters
+    if xml_formatter_available
+      # Use both HTML (for local viewing) and XML (for Codacy)
+      formatter SimpleCov::Formatter::MultiFormatter.new([
+        SimpleCov::Formatter::HTMLFormatter,
+        SimpleCov::Formatter::CoberturaFormatter
+      ])
+    else
+      # Fallback to HTML only if XML formatter not available
+      formatter SimpleCov::Formatter::HTMLFormatter
+    end
+    
+    # Minimum coverage threshold (optional)
+    minimum_coverage 80
+  end
+end
+
 require "rails"
 require "active_support"
 require "active_storage/engine"

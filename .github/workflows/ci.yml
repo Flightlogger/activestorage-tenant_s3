@@ -54,17 +54,51 @@ jobs:
             gem "minitest", "~> 5.0"
             gem "sqlite3", "~> 2.0"
             gem "rubocop-rails-omakase", require: false
+            gem "simplecov", "~> 0.22", require: false
+            gem "simplecov-cobertura", "~> 2.1", require: false
           end
           EOF
           BUNDLE_GEMFILE=Gemfile.ci bundle install
       
-      - name: Run tests
+      - name: Run tests with coverage
         run: BUNDLE_GEMFILE=Gemfile.ci bundle exec rake test
         env:
           RAILS_ENV: test
+          COVERAGE: true
       
       - name: Build gem
         run: BUNDLE_GEMFILE=Gemfile.ci bundle exec rake build
+      
+      - name: Generate coverage XML if missing
+        if: matrix.ruby == '3.4' && matrix.rails == '8.1'
+        run: |
+          # Generate XML from SimpleCov results if not already created
+          if [ ! -f coverage/coverage.xml ] && [ -f coverage/.resultset.json ]; then
+            echo "Generating XML coverage from SimpleCov results..."
+            BUNDLE_GEMFILE=Gemfile.ci bundle exec ruby -e "
+              require 'simplecov'
+              require 'simplecov-cobertura'
+              result = SimpleCov::Result.from_hash(JSON.parse(File.read('coverage/.resultset.json'))['Unit Tests'])
+              SimpleCov::Formatter::CoberturaFormatter.new.format(result)
+            "
+          fi
+          # Verify XML exists
+          if [ -f coverage/coverage.xml ]; then
+            echo "Coverage XML found at coverage/coverage.xml"
+            ls -lh coverage/coverage.xml
+          else
+            echo "Warning: Coverage XML not generated"
+            find coverage -name "*.xml" || echo "No XML files found"
+          fi
+        continue-on-error: true
+      
+      - name: Upload coverage to Codacy
+        if: matrix.ruby == '3.4' && matrix.rails == '8.1'
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/coverage.xml
+        continue-on-error: true
 
   lint:
     name: Lint
