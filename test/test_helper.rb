@@ -6,6 +6,26 @@ ENV["RAILS_ENV"] ||= "test"
 if ENV["COVERAGE"]
   require "simplecov"
 
+  # Clean up any existing malformed coverage files that might cause issues
+  # This prevents the Cobertura formatter from trying to merge with corrupted XML
+  coverage_xml = File.join(Dir.pwd, "coverage", "coverage.xml")
+  if File.exist?(coverage_xml)
+    begin
+      # Try to validate the XML file - if it's malformed, delete it
+      require "rexml/document"
+      content = File.read(coverage_xml)
+      # Check if file has content and is valid XML
+      if content.strip.empty? || content.strip !~ /<\?xml/
+        File.delete(coverage_xml)
+      else
+        REXML::Document.new(content)
+      end
+    rescue REXML::ParseException, Errno::ENOENT
+      # File is malformed or doesn't exist, delete it
+      File.delete(coverage_xml) if File.exist?(coverage_xml)
+    end
+  end
+
   # Always try to include XML formatter for Codacy
   begin
     require "simplecov-cobertura"
@@ -26,9 +46,12 @@ if ENV["COVERAGE"]
     add_group "Lib", "lib"
 
     # Configure formatters
-    if ENV["CI"] && xml_formatter_available
-      # In CI, use only XML formatter for Codacy (more reliable)
-      formatter SimpleCov::Formatter::CoberturaFormatter
+    # In CI, don't use XML formatter during test execution to avoid conflicts.
+    # XML is generated separately in CI workflow after tests complete.
+    if ENV["CI"]
+      # In CI, only use HTML formatter (or none) to avoid XML parsing issues
+      # The XML will be generated in a separate CI step using the resultset JSON
+      formatter SimpleCov::Formatter::HTMLFormatter
     elsif xml_formatter_available
       # Locally, use both HTML and XML
       formatter SimpleCov::Formatter::MultiFormatter.new([
@@ -201,7 +224,5 @@ class ActiveSupport::TestCase
   include FixtureHelper
 end
 
-# Ensure XML coverage is generated in CI
-# Note: The formatter is already configured in SimpleCov.start above,
-# so we don't need an additional at_exit hook. SimpleCov will automatically
-# call the formatter when it finishes.
+# Note: In CI, XML coverage is generated separately after tests complete
+# (see .github/workflows/ci.yml) to avoid XML parsing conflicts during test execution.
