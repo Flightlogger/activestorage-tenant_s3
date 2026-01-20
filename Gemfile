@@ -10,5 +10,5 @@ group :development, :test do
   gem "sqlite3", "~> 2.0"
   gem "rubocop-rails-omakase", require: false
   gem "simplecov", "~> 0.22", require: false
-  gem "simplecov-cobertura", "~> 2.1", require: false
+  gem "simplecov-cobertura", "~> 3.1", require: false
 end
