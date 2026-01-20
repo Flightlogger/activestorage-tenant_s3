@@ -27,7 +27,7 @@ class TenantS3ServiceTest < ActiveSupport::TestCase
         content_type: "application/pdf",
         service_name: "tenant_s3",
         byte_size: 512,
-        checksum: Digest::MD5.base64digest("old"),
+        checksum: Digest::SHA256.base64digest("old"),
         tenant_id: nil,
         tenant_type: nil
       )
@@ -52,7 +52,7 @@ class TenantS3ServiceTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test"),
+      checksum: Digest::SHA256.base64digest("test"),
       tenant_id: @account.id,
       tenant_type: "Account"
     )
