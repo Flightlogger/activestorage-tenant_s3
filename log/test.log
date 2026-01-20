@@ -2967,3 +2967,192 @@ RailtieTest: test_railtie_automatically_sets_up_on_Rails_initialization
 ------------------------------------
 RailtieTest: test_railtie_is_defined
 ------------------------------------
+Generating image variants require the image_processing gem. Please add `gem "image_processing", "~> 1.2"` to your Gemfile or set `config.active_storage.variant_processor = :disabled`.
+  [1m[35m (2.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "accounts"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "accounts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "active_storage_blobs"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "active_storage_blobs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar NOT NULL, "filename" varchar NOT NULL, "content_type" varchar, "metadata" text, "service_name" varchar NOT NULL, "byte_size" bigint NOT NULL, "checksum" varchar, "created_at" datetime(6) NOT NULL, "tenant_id" bigint, "tenant_type" varchar)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_blobs_on_key" ON "active_storage_blobs" ("key")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "active_storage_attachments"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "active_storage_attachments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "record_type" varchar NOT NULL, "record_id" bigint NOT NULL, "blob_id" bigint NOT NULL, "created_at" datetime(6) NOT NULL, "tenant_id" bigint, "tenant_type" varchar)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_active_storage_attachments_on_blob_id" ON "active_storage_attachments" ("blob_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_attachments_uniqueness" ON "active_storage_attachments" ("record_type", "record_id", "name", "blob_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "active_storage_variant_records"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "active_storage_variant_records" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "blob_id" bigint NOT NULL, "variation_digest" varchar NOT NULL, "tenant_id" bigint, "tenant_type" varchar)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_variant_records_uniqueness" ON "active_storage_variant_records" ("blob_id", "variation_digest")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2026-01-20 12:21:45.882661', '2026-01-20 12:21:45.882663') RETURNING "key"[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mFixtures Load (0.1ms)[0m  [1m[31mDELETE FROM "accounts";
+DELETE FROM "active_storage_blobs";
+DELETE FROM "active_storage_attachments";
+INSERT INTO "accounts" ("id", "name", "created_at", "updated_at") VALUES (980190962, 'Account One', '2026-01-19 12:21:45', '2026-01-20 12:21:45.905178'), (298486374, 'Account Two', '2026-01-19 12:21:45', '2026-01-20 12:21:45.905178'), (113629430, 'Account Three', '2026-01-19 12:21:45', '2026-01-20 12:21:45.905178');
+INSERT INTO "active_storage_blobs" ("id", "key", "filename", "content_type", "metadata", "service_name", "byte_size", "checksum", "created_at", "tenant_id", "tenant_type") VALUES (NULL, 'QCKyML55592NTpt8byiaMe9q', 'test.pdf', 'application/pdf', NULL, 'tenant_s3', 1024, 'CY9rzUYh03PK3k6DJie09g==', '2026-01-19 12:21:45', 980190962, 'Account'), (NULL, 'YZoBTNeA98ddx9PwiRE84ZBM', 'image.jpg', 'image/jpeg', NULL, 'tenant_s3', 2048, 'rQI0gpIFuQMxlrqBj3qHKw==', '2026-01-19 12:21:45', 298486374, 'Account'), (NULL, 'Raeh3EzXqRdwkd4H5ppJs4Pp', 'old_file.pdf', 'application/pdf', NULL, 'tenant_s3', 512, 'FJYD5sA1FjYqjaI/Yk25RQ==', '2026-01-18 12:21:45', NULL, NULL);
+INSERT INTO "active_storage_attachments" ("id", "name", "record_type", "record_id", "blob_id", "created_at", "tenant_id", "tenant_type") VALUES (NULL, 'documents', 'Account', 980190962, 938051469, '2026-01-19 12:21:45', 980190962, 'Account'), (NULL, 'documents', 'Account', 298486374, 474975007, '2026-01-19 12:21:45', 298486374, 'Account')[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+-----------------------------------------------------------------------
+RailtieTest: test_railtie_automatically_sets_up_on_Rails_initialization
+-----------------------------------------------------------------------
+------------------------------------
+RailtieTest: test_railtie_is_defined
+------------------------------------
+--------------------------------------------------------------------------------
+CurrentTenantTest: test_sets_tenant_id_and_tenant_type_on_blob_save_when_missing
+--------------------------------------------------------------------------------
+  [1m[36mAccount Load (0.1ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Create (0.2ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at", "tenant_id", "tenant_type") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["key", "twScK2g5h2Z81K77LWWUpDks"], ["filename", "test.pdf"], ["content_type", "application/pdf"], ["service_name", "tenant_s3"], ["byte_size", 1024], ["checksum", "CY9rzUYh03PK3k6DJie09g=="], ["created_at", "2026-01-20 12:21:46.018746"], ["tenant_id", 113629430], ["tenant_type", "Account"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+----------------------------------------------------------------------
+CurrentTenantTest: test_does_not_set_tenant_when_Current.tenant_is_nil
+----------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Create (0.1ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at") VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["key", "8NpThtdccJJeV7rxRNYVWUNE"], ["filename", "test.pdf"], ["content_type", "application/pdf"], ["service_name", "tenant_s3"], ["byte_size", 1024], ["checksum", "CY9rzUYh03PK3k6DJie09g=="], ["created_at", "2026-01-20 12:21:46.020106"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+--------------------------------------------------------------
+CurrentTenantTest: test_creates_polymorphic_tenant_association
+--------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAccount Load (0.1ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" WHERE "accounts"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+--------------------------------------------------------------------------------------------------
+CurrentTenantTest: test_sets_tenant_id_and_tenant_type_on_blob_creation_when_Current.tenant_is_set
+--------------------------------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Create (0.1ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at", "tenant_id", "tenant_type") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["key", "pHktqPEqWhMj6jeEe24Tsd3c"], ["filename", "test.pdf"], ["content_type", "application/pdf"], ["service_name", "tenant_s3"], ["byte_size", 1024], ["checksum", "CY9rzUYh03PK3k6DJie09g=="], ["created_at", "2026-01-20 12:21:46.026396"], ["tenant_id", 113629430], ["tenant_type", "Account"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+----------------------------------------------------------------------------
+CurrentTenantTest: test_does_not_override_existing_tenant_id_and_tenant_type
+----------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Create (0.1ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at", "tenant_id", "tenant_type") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["key", "ytu7HBy2YShrd1YTxCJ7wVpr"], ["filename", "test.pdf"], ["content_type", "application/pdf"], ["service_name", "tenant_s3"], ["byte_size", 1024], ["checksum", "CY9rzUYh03PK3k6DJie09g=="], ["created_at", "2026-01-20 12:21:46.027080"], ["tenant_id", 298486374], ["tenant_type", "Account"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+----------------------------------------------------------
+CurrentTenantTest: test_sets_tenant_on_attachment_creation
+----------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Create (0.1ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at", "tenant_id", "tenant_type") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["key", "TgydqNE9yGGcp31DvqqQC7nf"], ["filename", "test.pdf"], ["content_type", "application/pdf"], ["service_name", "tenant_s3"], ["byte_size", 1024], ["checksum", "CY9rzUYh03PK3k6DJie09g=="], ["created_at", "2026-01-20 12:21:46.027673"], ["tenant_id", 113629430], ["tenant_type", "Account"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Attachment Create (0.1ms)[0m  [1m[32mINSERT INTO "active_storage_attachments" ("name", "record_type", "record_id", "blob_id", "created_at", "tenant_id", "tenant_type") VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "documents"], ["record_type", "Account"], ["record_id", 113629430], ["blob_id", 8], ["created_at", "2026-01-20 12:21:46.029401"], ["tenant_id", 113629430], ["tenant_type", "Account"]]
+  [1m[36mAccount Update (0.0ms)[0m  [1m[33mUPDATE "accounts" SET "updated_at" = ? WHERE "accounts"."id" = ?[0m  [["updated_at", "2026-01-20 12:21:46.029669"], ["id", 113629430]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mActiveStorage::Attachment Load (0.1ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = ? AND "active_storage_attachments"."record_type" = ? AND "active_storage_attachments"."name" = ? LIMIT ?[0m  [["record_id", 8], ["record_type", "ActiveStorage::Blob"], ["name", "preview_image"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[36mActiveStorage::Blob Update (0.1ms)[0m  [1m[33mUPDATE "active_storage_blobs" SET "metadata" = ? WHERE "active_storage_blobs"."id" = ?[0m  [["metadata", "{\"analyzed\":true}"], ["id", 8]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."blob_id" = ?[0m  [["blob_id", 8]]
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" WHERE "accounts"."id" = ?[0m  [["id", 113629430]]
+  [1m[36mAccount Update (0.0ms)[0m  [1m[33mUPDATE "accounts" SET "updated_at" = ? WHERE "accounts"."id" = ?[0m  [["updated_at", "2026-01-20 12:21:46.057660"], ["id", 113629430]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+-----------------------------------------------------------------------------
+SetupTest: test_setup!_includes_CurrentTenant_in_ActiveStorage::VariantRecord
+-----------------------------------------------------------------------------
+--------------------------------------------------------------------------
+SetupTest: test_setup!_includes_CurrentTenant_in_ActiveStorage::Attachment
+--------------------------------------------------------------------------
+----------------------------------------------------------------
+SetupTest: test_ActiveStorage::Attachment_has_tenant_association
+----------------------------------------------------------------
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."tenant_id" IS NOT NULL ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" WHERE "accounts"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+--------------------------------------------------------------------
+SetupTest: test_setup!_includes_CurrentTenant_in_ActiveStorage::Blob
+--------------------------------------------------------------------
+----------------------------------------------------------
+SetupTest: test_ActiveStorage::Blob_has_tenant_association
+----------------------------------------------------------
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" WHERE "accounts"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+--------------------------------------------------------------------------------------------
+TenantS3ServiceTest: test_builds_path_with_fallback_to_ActiveStorage_when_record_type_is_nil
+--------------------------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+---------------------------------------------------------------------
+TenantS3ServiceTest: test_builds_path_with_record_type_when_available
+---------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+--------------------------------------------------------------
+TenantS3ServiceTest: test_builds_S3_path_with_tenant_structure
+--------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."key" = ? LIMIT ?[0m  [["key", "QCKyML55592NTpt8byiaMe9q"], ["LIMIT", 1]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."blob_id" = ? ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["blob_id", 1], ["LIMIT", 1]]
+------------------------------------------------------------------------
+TenantS3ServiceTest: test_find_object_with_fallback_builds_correct_paths
+------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."key" = ? LIMIT ?[0m  [["key", "QCKyML55592NTpt8byiaMe9q"], ["LIMIT", 1]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."blob_id" = ? ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["blob_id", 1], ["LIMIT", 1]]
+------------------------------------------------------------------------------------------
+TenantS3ServiceTest: test_extracts_tenant_info_from_Current.tenant_when_blob_has_no_tenant
+------------------------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Update (0.0ms)[0m  [1m[33mUPDATE "active_storage_blobs" SET "tenant_id" = ?, "tenant_type" = ? WHERE "active_storage_blobs"."id" = ?[0m  [["tenant_id", 113629430], ["tenant_type", "Account"], ["id", 3]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+--------------------------------------------------------------------------
+TenantS3ServiceTest: test_returns_nil_tenant_info_when_no_tenant_available
+--------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+------------------------------------------------------------------------
+TenantS3ServiceTest: test_builds_root_path_when_no_tenant_info_available
+------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."key" = ? LIMIT ?[0m  [["key", "8NpThtdccJJeV7rxRNYVWUNE"], ["LIMIT", 1]]
+ActiveStorage::TenantS3::Service::TenantS3Service: No tenant information available for key 8NpThtdccJJeV7rxRNYVWUNE. Using root path.
+--------------------------------------------------------------------------------
+TenantS3ServiceTest: test_builds_S3_path_with_record_type_when_attachment_exists
+--------------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = ? LIMIT ?[0m  [["id", 938051469], ["LIMIT", 1]]
+---------------------------------------------------------
+TenantS3ServiceTest: test_sanitizes_record_type_correctly
+---------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+---------------------------------------------------------------------------
+TenantS3ServiceTest: test_returns_nil_record_type_when_no_attachment_exists
+---------------------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."blob_id" = ? ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["blob_id", 5], ["LIMIT", 1]]
+--------------------------------------------------------------
+TenantS3ServiceTest: test_extracts_record_type_from_attachment
+--------------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Attachment Load (0.0ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" ORDER BY "active_storage_attachments"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = ? LIMIT ?[0m  [["id", 938051469], ["LIMIT", 1]]
+--------------------------------------------------------
+TenantS3ServiceTest: test_extracts_tenant_info_from_blob
+--------------------------------------------------------
+  [1m[36mAccount Load (0.0ms)[0m  [1m[34mSELECT "accounts".* FROM "accounts" ORDER BY "accounts"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActiveStorage::Blob Load (0.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."tenant_id" IS NOT NULL ORDER BY "active_storage_blobs"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
