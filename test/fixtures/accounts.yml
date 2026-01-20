@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+one:
+  name: Account One
+  created_at: <%= 1.day.ago %>
+
+two:
+  name: Account Two
+  created_at: <%= 1.day.ago %>
+
+three:
+  name: Account Three
+  created_at: <%= 1.day.ago %>

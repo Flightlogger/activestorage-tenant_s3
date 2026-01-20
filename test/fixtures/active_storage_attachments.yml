@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+attachment_one:
+  name: documents
+  record_type: Account
+  record_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  blob_id: <%= ActiveRecord::FixtureSet.identify(:blob_one) %>
+  created_at: <%= 1.day.ago %>
+  tenant_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  tenant_type: Account
+
+attachment_two:
+  name: documents
+  record_type: Account
+  record_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
+  blob_id: <%= ActiveRecord::FixtureSet.identify(:blob_two) %>
+  created_at: <%= 1.day.ago %>
+  tenant_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
+  tenant_type: Account
