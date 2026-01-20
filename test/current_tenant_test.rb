@@ -21,7 +21,7 @@ class CurrentTenantTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test")
+      checksum: Digest::SHA256.base64digest("test")
     )
 
     assert_equal @account.id, blob.tenant_id
@@ -38,7 +38,7 @@ class CurrentTenantTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test"),
+      checksum: Digest::SHA256.base64digest("test"),
       tenant_id: other_account.id,
       tenant_type: "Account"
     )
@@ -54,7 +54,7 @@ class CurrentTenantTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test")
+      checksum: Digest::SHA256.base64digest("test")
     )
 
     Current.tenant = @account
@@ -71,7 +71,7 @@ class CurrentTenantTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test")
+      checksum: Digest::SHA256.base64digest("test")
     )
 
     assert_nil blob.tenant_id
@@ -87,7 +87,7 @@ class CurrentTenantTest < ActiveSupport::TestCase
       content_type: "application/pdf",
       service_name: "tenant_s3",
       byte_size: 1024,
-      checksum: Digest::MD5.base64digest("test")
+      checksum: Digest::SHA256.base64digest("test")
     )
 
     attachment = ActiveStorage::Attachment.create!(

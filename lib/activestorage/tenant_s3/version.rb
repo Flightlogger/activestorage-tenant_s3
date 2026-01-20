@@ -3,7 +3,7 @@
 module ActiveStorage
   module TenantS3
     module Version
-      VERSION = "0.1.0"
+      VERSION = "0.2.0"
     end
 
     # Alias for backward compatibility and easier access
