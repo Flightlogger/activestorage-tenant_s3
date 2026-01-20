@@ -5,7 +5,7 @@ ENV["RAILS_ENV"] ||= "test"
 # Start SimpleCov before requiring any application code
 if ENV["COVERAGE"]
   require "simplecov"
-  
+
   # Always try to include XML formatter for Codacy
   begin
     require "simplecov-cobertura"
@@ -13,18 +13,18 @@ if ENV["COVERAGE"]
   rescue LoadError
     xml_formatter_available = false
   end
-  
+
   SimpleCov.start do
     # Set command name for SimpleCov
     command_name "Unit Tests"
-    
+
     add_filter "/test/"
     add_filter "/config/"
     add_filter "/vendor/"
-    
+
     # Track coverage for lib directory
     add_group "Lib", "lib"
-    
+
     # Configure formatters
     if ENV["CI"] && xml_formatter_available
       # In CI, use only XML formatter for Codacy (more reliable)
@@ -39,8 +39,9 @@ if ENV["COVERAGE"]
       # Fallback to HTML only if XML formatter not available
       formatter SimpleCov::Formatter::HTMLFormatter
     end
-    
+
     # Minimum coverage threshold (optional)
+    # Only enforce if we have actual coverage data
     minimum_coverage 80
   end
 end
@@ -201,21 +202,6 @@ class ActiveSupport::TestCase
 end
 
 # Ensure XML coverage is generated in CI
-if ENV["COVERAGE"] && ENV["CI"]
-  begin
-    require "simplecov-cobertura"
-    
-    # Add at_exit hook to ensure XML is generated even if formatter didn't run
-    at_exit do
-      if defined?(SimpleCov) && SimpleCov.running
-        result = SimpleCov.result
-        if result && !result.files.empty?
-          formatter = SimpleCov::Formatter::CoberturaFormatter.new
-          formatter.format(result)
-        end
-      end
-    end
-  rescue LoadError
-    # simplecov-cobertura not available
-  end
-end
+# Note: The formatter is already configured in SimpleCov.start above,
+# so we don't need an additional at_exit hook. SimpleCov will automatically
+# call the formatter when it finishes.
