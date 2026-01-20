@@ -6,6 +6,10 @@ ENV["RAILS_ENV"] ||= "test"
 if ENV["COVERAGE"]
   require "simplecov"
 
+  # Clean up any existing coverage.xml to prevent formatter from trying to merge with malformed XML
+  coverage_xml = File.join(Dir.pwd, "coverage", "coverage.xml")
+  File.delete(coverage_xml) if File.exist?(coverage_xml)
+
   # Always try to include XML formatter for Codacy
   begin
     require "simplecov-cobertura"
