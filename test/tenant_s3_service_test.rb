@@ -56,7 +56,7 @@ class TenantS3ServiceTest < ActiveSupport::TestCase
       tenant_id: @account.id,
       tenant_type: "Account"
     )
-    
+
     object = @service.send(:object_for, blob.key)
 
     expected_path = "#{blob.tenant_type}/#{blob.tenant_id}/ActiveStorage/#{blob.key}"
@@ -71,7 +71,7 @@ class TenantS3ServiceTest < ActiveSupport::TestCase
     blob.update_columns(tenant_id: account.id, tenant_type: "Account")
     # Clear any caches
     blob.association(:attachments).reset if blob.association(:attachments).loaded?
-    
+
     # Verify blob has tenant info in DB
     db_blob = ActiveStorage::Blob.find(blob.id)
     assert db_blob.tenant_id.present?, "Blob must have tenant_id in database"
