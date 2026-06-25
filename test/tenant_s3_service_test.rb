@@ -164,6 +164,58 @@ class TenantS3ServiceTest < ActiveSupport::TestCase
     assert_equal @blob_without_tenant.key, object.key
   end
 
+  test "download without a block returns the object body as a binary string" do
+    # Regression: the previous implementation returned the raw Aws::S3::Object#get
+    # response (a GetObjectOutput struct). ActiveStorage::Blob#download expects the
+    # file bytes, so callers (mailer attachments, send_data, logo embedding) ended up
+    # serializing the struct's #to_s, producing corrupt files.
+    body = Object.new
+    # Mutable like StringIO#string (AWS returns a StringIO body); force_encoding
+    # mutates in place, matching ActiveStorage::Service::S3Service#download.
+    def body.string = +"PDF-BYTES"
+
+    response = Object.new
+    response.define_singleton_method(:body) { body }
+
+    fake_object = Object.new
+    fake_object.define_singleton_method(:get) do |*, &blk|
+      raise "block form should not be used for a non-block download" if blk
+
+      response
+    end
+
+    @service.stub :find_object_with_fallback, fake_object do
+      result = @service.download(@blob.key)
+
+      assert_equal "PDF-BYTES", result
+      assert_equal Encoding::BINARY, result.encoding
+    end
+  end
+
+  test "download with a block streams the object via get" do
+    fake_object = Object.new
+    fake_object.define_singleton_method(:get) do |*, &blk|
+      blk.call("chunk-1")
+      blk.call("chunk-2")
+      nil
+    end
+
+    chunks = []
+    @service.stub :find_object_with_fallback, fake_object do
+      @service.download(@blob.key) { |chunk| chunks << chunk }
+    end
+
+    assert_equal %w[chunk-1 chunk-2], chunks
+  end
+
+  test "download raises FileNotFoundError when the object is missing" do
+    @service.stub :find_object_with_fallback, nil do
+      assert_raises(ActiveStorage::FileNotFoundError) do
+        @service.download(@blob.key)
+      end
+    end
+  end
+
   test "find_object_with_fallback builds correct paths" do
     # Create a simple mock bucket class that returns objects that don't exist
     mock_bucket_class = Class.new do

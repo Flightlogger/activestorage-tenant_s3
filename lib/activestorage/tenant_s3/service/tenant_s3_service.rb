@@ -29,13 +29,22 @@ module ActiveStorage
       #     bucket: 'my-bucket'
       #   )
       class TenantS3Service < ActiveStorage::Service::S3Service
-        # Override download to check both new path and fallback "ActiveStorage" path
+        # Override download to check both new path and fallback "ActiveStorage" path.
+        #
+        # Mirrors ActiveStorage::Service::S3Service#download: with a block the object
+        # is streamed chunk by chunk, and without a block the full object body is
+        # returned as a binary string. Returning the raw Aws::S3::Object#get response
+        # (the previous behavior) corrupts callers like ActiveStorage::Blob#download,
+        # which expect the file bytes, not the GetObjectOutput struct.
         def download(key, &block)
           object = find_object_with_fallback(key)
-          return object.get(&block) if object
+          raise ActiveStorage::FileNotFoundError unless object
 
-          # If no object found, raise error (matching parent behavior)
-          raise ActiveStorage::FileNotFoundError
+          if block_given?
+            object.get(&block)
+          else
+            object.get.body.string.force_encoding(Encoding::BINARY)
+          end
         end
 
         # Override exist? to check both new path and fallback "ActiveStorage" path
